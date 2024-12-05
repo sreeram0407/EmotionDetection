@@ -130,4 +130,4 @@ This project is open-source and available under the MIT License.
 
 - Based on the FER2013 dataset
 - Uses TensorFlow and OpenCV for implementation
-- Inspired by various facial emotion detection research papers
+- Code by Sreeram Kondapalli and Caleb Musfeldt
