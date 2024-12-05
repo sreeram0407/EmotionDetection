@@ -32,11 +32,8 @@ opencv-python (cv2)
 
 Here's an example of the emotion detection system in action:
 
-### Input Video
-![Input Video](emotion1.mp4)
-
-### Output Video with Emotion Detection
-![Output Video](emotion1_processed.mp4)
+### Demo Video
+https://github.com/[your-username]/[your-repo-name]/assets/[your-asset-id]/emotion1_processed.mp4
 
 The output video demonstrates the model detecting emotions in real-time, showing:
 - Bounding boxes around detected faces
