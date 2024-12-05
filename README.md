@@ -32,10 +32,20 @@ opencv-python (cv2)
 
 Here's an example of the emotion detection system in action:
 
-### Demo Video
-https://github.com/[your-username]/[your-repo-name]/assets/[your-asset-id]/emotion1_processed.mp4
+### Screenshot
+<img src="https://github.com/sreeram0407/EmotionDetection/raw/main/key_moment.png" alt="Emotion Detection Example" width="600"/>
 
-The output video demonstrates the model detecting emotions in real-time, showing:
+The screenshot above demonstrates:
+- Face detection with green bounding box
+- Primary emotion (Neutral: 0.43) displayed in green
+- Secondary emotion (Surprise: 0.19) displayed in yellow
+- Real-time confidence scores for each detected emotion
+
+### Full Videos
+- [Watch input video](https://github.com/sreeram0407/EmotionDetection/blob/main/emotion1.mp4)
+- [Watch processed video with emotion detection](https://github.com/sreeram0407/EmotionDetection/blob/main/emotion1_processed.mp4)
+
+The system processes video in real-time, detecting faces and displaying:
 - Bounding boxes around detected faces
 - Primary emotion with confidence score (green label)
 - Secondary emotion with confidence score (yellow label)
