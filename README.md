@@ -1,133 +1,61 @@
-# Real-Time Facial Emotion Detection
+# Facial Expression Classification
 
-This project implements a Convolutional Neural Network (CNN) for real-time facial emotion detection using TensorFlow and OpenCV. The system can detect and classify seven different emotional states: Angry, Disgust, Fear, Happy, Sad, Surprise, and Neutral.
+A TensorFlow CNN and OpenCV pipeline for classifying facial expressions in webcam feeds and video files. The model is trained on FER2013’s seven labels: Angry, Disgust, Fear, Happy, Sad, Surprise, and Neutral.
 
-## Features
+## Demo
 
-- Real-time emotion detection using webcam
-- Video file processing with emotion detection
-- Support for training on the FER2013 dataset
-- Display of top two detected emotions with confidence scores
-- FPS counter for performance monitoring
-- GPU support with memory growth optimization
+![Video frame with predicted expression labels](key_moment.png)
 
-## Requirements
+[Input video](emotion1.mp4) · [Annotated output video](emotion1_processed.mp4) · [Implementation notebook](facial_emotion_detection.ipynb)
 
+## Setup
+
+From the repository root, create a Python environment and install the notebook dependencies:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install numpy pandas tensorflow opencv-python jupyter
+jupyter notebook facial_emotion_detection.ipynb
 ```
-numpy
-pandas
-tensorflow
-opencv-python (cv2)
-```
 
-## Project Structure
+The dataset and trained model files are not included. Place the FER2013 CSV at `fer2013.csv` in the repository root before training. Video and webcam inference require `checkpoints/best_model.h5`.
 
-- `emotion_detection.ipynb`: Main Jupyter notebook containing the implementation
-- `fer2013.csv`: Dataset file (not included, must be downloaded separately)
-- `emotion1.mp4`: Sample input video for testing
-- `emotion1_processed.mp4`: Processed output video showing emotion detection results
-- `checkpoints/`: Directory containing saved model checkpoints
+## Training
 
-## Example Output
-
-Here's an example of the emotion detection system in action:
-
-### Screenshot
-<img src="https://github.com/sreeram0407/EmotionDetection/raw/main/key_moment.png" alt="Emotion Detection Example" width="600"/>
-
-The screenshot above demonstrates:
-- Face detection with green bounding box
-- Primary emotion (Neutral: 0.43) displayed in green
-- Secondary emotion (Surprise: 0.19) displayed in yellow
-- Real-time confidence scores for each detected emotion
-
-### Full Videos
-- [Watch input video](https://github.com/sreeram0407/EmotionDetection/blob/main/emotion1.mp4)
-- [Watch processed video with emotion detection](https://github.com/sreeram0407/EmotionDetection/blob/main/emotion1_processed.mp4)
-
-The system processes video in real-time, detecting faces and displaying:
-- Bounding boxes around detected faces
-- Primary emotion with confidence score (green label)
-- Secondary emotion with confidence score (yellow label)
-- Each emotion is displayed with its probability percentage
-
-## Model Architecture
-
-The CNN architecture consists of:
-- 3 Convolution blocks with batch normalization and dropout
-- Dense layers with 512 and 256 units
-- Output layer with 7 units (one for each emotion)
-- Batch normalization and dropout for regularization
-
-## Usage
-
-### Training the Model
+Run the notebook’s imports and function-definition cells, then train with:
 
 ```python
-# Set continue_training to False for training from scratch
-model, history = train_model(continue_training=True)
+model, history = train_model(continue_training=False)
 ```
 
-### Processing a Video File
+Training uses data augmentation, early stopping, learning-rate reduction, and a best-model checkpoint. Set `continue_training=True` to resume from an existing checkpoint.
+
+The notebook uses FER2013’s `Training` partition for fitting and `PrivateTest` as validation data during training. Those validation results should not be presented as an independent held-out test benchmark.
+
+## Inference
+
+After training or supplying a compatible checkpoint, run either example in the notebook:
 
 ```python
-video_input_path = './videos/your_video.mp4'
-video_output_path = './output/processed_video.mp4'
-process_video(video_input_path, video_output_path)
+process_video('emotion1.mp4', 'emotion1_annotated.mp4')
 ```
-
-### Real-time Webcam Detection
 
 ```python
 start_webcam_detection()
 ```
 
-## Model Performance
+Replace the notebook’s existing `./videos/...` and `./output/...` example paths with files and directories on your machine. OpenCV displays a window with face boxes and the top two predicted labels; press `q` to stop. The webcam mode also displays an FPS counter.
 
-The model achieves approximately 63% accuracy on the validation set, which is competitive with many published benchmarks on the FER2013 dataset given the challenging nature of emotion recognition.
+## Model
 
-## Model Training Details
+- Three convolution blocks with batch normalization, max pooling, and dropout.
+- Dense layers with 512 and 256 units.
+- Seven-class softmax output.
+- OpenCV Haar-cascade face detection and 48 × 48 grayscale model input.
 
-- Uses the FER2013 dataset
-- Data augmentation with rotation, flipping, and zoom
-- Learning rate reduction on plateau
-- Early stopping to prevent overfitting
-- Checkpointing to save best model weights
-- Training/validation split based on dataset's Usage column
+The predictions describe the model’s facial-expression labels; they do not establish a person’s internal emotional state. Results depend on lighting, framing, and the training data.
 
-## Performance Optimization
+## Credits
 
-- GPU memory growth management
-- Batch normalization for faster training
-- Dropout layers to prevent overfitting
-- Adjustable learning rate with ReduceLROnPlateau
-- Early stopping to prevent unnecessary training iterations
-
-## Controls
-
-- Press 'q' to quit the webcam or video processing mode
-- Window can be resized or moved while running
-
-## Known Limitations
-
-- Performance may vary based on lighting conditions
-- Multiple face detection may impact frame rate
-- GPU recommended for optimal performance during training
-
-## Future Improvements
-
-- Support for different face detection models
-- Emotion tracking over time
-- Integration with other facial analysis features
-- Export to different model formats (TFLite, ONNX)
-- Support for different input resolutions
-
-## License
-
-This project is open-source and available under the MIT License.
-
-## Acknowledgments
-
-- Based on the FER2013 dataset
-- Uses TensorFlow and OpenCV for implementation
-- Code by Sreeram Kondapalli and Caleb Musfeldt
+Code by **Sreeram Kondapalli** and **Caleb Musfeldt**. Built with TensorFlow, OpenCV, and the FER2013 dataset.
